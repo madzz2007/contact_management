@@ -1,0 +1,92 @@
+/* src/components/layout/AppLayout.module.css */
+
+/* Root shell containing sidebar/drawer and main content */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+/* Drawer (sidebar) container */
+.drawer {
+  position: fixed;
+  inset: 0;
+  width: min(320px, 88vw);
+  max-width: 90%;
+  height: 100%;
+  transform: translateX(-100%);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s;
+  backdrop-filter: blur(12px);
+  /* Use the surface color directly; opacity is handled by the backdrop */
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  z-index: 80;
+  display: none;
+}
+
+.drawer-open {
+  transform: translateX(0);
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 18, 16, 0.46);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out forwards;
+  z-index: 70;
+}
+
+.shell-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100svh;
+  margin-left: var(--sidebar-w);
+  transition: margin-left 180ms ease;
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  animation: slideUp 0.4s ease-out;
+}
+
+@media (max-width: 1080px) {
+  .shell-main {
+    margin-left: 0;
+  }
+  .drawer {
+    display: block;
+  }
+  .drawer :global(.sidebar) {
+    position: static;
+    width: 100%;
+    height: 100%;
+    border-right: 0;
+  }
+}
+
+/* Utility classes (imported elsewhere) */
+.fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+/* Keyframes – also defined in animations.css for reuse */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
